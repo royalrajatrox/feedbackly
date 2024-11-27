@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "engines": {
-      "node": "22.11.0",
-      "npm": "10.9.0"
+    "node": "22.11.0",
+    "npm": "10.9.0"
   },
   "scripts": {
     "start": "node index.js"
@@ -13,6 +13,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "passport": "^0.5.3",
+    "passport-google-oauth20": "^2.0.0"
   }
 }

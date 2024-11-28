@@ -3,7 +3,7 @@ const {mongo} = require("mongoose");
 const { Schema } = mongoose;
 // this is destructuring
 
-const userSchema = new schema({
+const userSchema = new Schema({
    googleId: String
 });
 

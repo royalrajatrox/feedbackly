@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const keys = require("../config/keys");
 
 
+
+
 const User = mongoose.model('users');
 
 passport.serializeUser( (user, done) => {
@@ -28,24 +30,48 @@ passport.use(
     proxy: true
             // using the keys of google API
     },
-        (accessToken, refreshToken, profile, done) => {
+        async (accessToken, refreshToken, profile, done) => {
             // done is called when authentication is done
-        User.findOne({googleId: profile.id})
-            .then( (exisitingUser) => {
-                // this exisitingUser is come from the database
-                if (exisitingUser){
-                    // we already have a record of the user
-                    done(null, exisitingUser);
-                }else{
-                    // that means we dont have the user
-                    new User({ googleId: profile.id }).
-                        save().
-                        then(user => done(null, user));
+        const existingUser = await User.findOne({googleId: profile.id})
 
-                }
-            })
+                // this existingUser is come from the database
+         if (existingUser){
+                    // we already have a record of the user
+         done(null, existingUser);
+         }else{
+                    // that means we dont have the user
+         const user = await new User({ googleId: profile.id }).save()
+             done(null, user);
+         }
+
 
 
     }
+
     )
 );
+
+
+
+
+// I have commented the old way of handling the promises !!!!!
+
+//     (accessToken, refreshToken, profile, done) => {
+//     // done is called when authentication is done
+//     User.findOne({googleId: profile.id})
+//         .then( (existingUser) => {
+//             // this existingUser is come from the database
+//             if (existingUser){
+//                 // we already have a record of the user
+//                 done(null, existingUser);
+//             }else{
+//                 // that means we dont have the user
+//                 new User({ googleId: profile.id }).
+//                 save().
+//                 then(user => done(null, user));
+//
+//             }
+//         })
+//
+//
+// }

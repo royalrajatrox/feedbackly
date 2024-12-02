@@ -8,12 +8,18 @@ module.exports = (app) => {
         })
     );
 // There could be many scopes, for ex. contact info... this means getting the information of the client from the google
-    app.get('/auth/google/callback', passport.authenticate('google'));
+    app.get(
+        '/auth/google/callback',
+        passport.authenticate('google'),
+        (req, res) => {
+            res.redirect('/surveys');
+        }
+    );
 
 
     app.get('/api/logout', (req, res) => {
         req.logout();
-        res.send(req.user);
+        res.redirect('/');
     });
 
 
